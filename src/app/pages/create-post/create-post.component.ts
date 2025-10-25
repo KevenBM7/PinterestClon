@@ -23,48 +23,45 @@ export class CreatePostComponent {
 
   constructor() {
     this.postForm = this.fb.group({
-      title: [''],     // ← Sin validaciones requeridas
-      description: [''], // ← Sin validaciones requeridas
-      imageUrl: ['', [Validators.required, Validators.pattern(/^https?:\/\/.+/i)]] // ← Solo este obligatorio
+      title: [''],
+      description: [''],
+      imageUrl: ['', [Validators.required, Validators.pattern(/^https?:\/\/.+/i)]]
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.postForm.valid) {
       this.isSubmitting = true;
       this.submitMessage = '';
 
-      const formValue = this.postForm.value;
-      const newPost: Post = {
-        imageUrl: formValue.imageUrl,
-        createdAt: new Date()
-      };
+      try {
+        const formValue = this.postForm.value;
+        const newPost: Post = {
+          imageUrl: formValue.imageUrl,
+          createdAt: new Date()
+        };
 
-      // Solo agregar título y descripción si tienen contenido
-      if (formValue.title?.trim()) {
-        newPost.title = formValue.title.trim();
-      }
-      if (formValue.description?.trim()) {
-        newPost.description = formValue.description.trim();
-      }
-
-      this.postService.createPost(newPost).subscribe({
-        next: (response) => {
-          this.submitMessage = '¡Pin creado exitosamente!';
-          this.isSubmitting = false;
-          this.postForm.reset();
-          
-          // Redirigir a home después de 2 segundos
-          setTimeout(() => {
-            this.router.navigate(['/home']);
-          }, 2000);
-        },
-        error: (error) => {
-          console.error('Error creando post:', error);
-          this.submitMessage = 'Error al crear el pin. Intenta de nuevo.';
-          this.isSubmitting = false;
+        if (formValue.title?.trim()) {
+          newPost.title = formValue.title.trim();
         }
-      });
+        if (formValue.description?.trim()) {
+          newPost.description = formValue.description.trim();
+        }
+
+        await this.postService.createPost(newPost);
+        this.submitMessage = 'Pin creado exitosamente';
+        this.postForm.reset();
+        
+        setTimeout(() => {
+          this.router.navigate(['/home']);
+        }, 2000);
+
+      } catch (error) {
+        console.error('Error creando post:', error);
+        this.submitMessage = 'Error al crear el pin. Intenta de nuevo.';
+      } finally {
+        this.isSubmitting = false;
+      }
     } else {
       this.markFormGroupTouched();
     }

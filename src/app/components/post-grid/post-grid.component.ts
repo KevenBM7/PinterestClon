@@ -20,17 +20,15 @@ export class PostGridComponent implements OnInit {
     this.loadPosts();
   }
 
-  loadPosts() {
-    this.postService.getPosts().subscribe({
-      next: (posts) => {
-        this.posts = posts;
-        this.isLoading = false;
-        console.log('Posts cargados:', posts);
-      },
-      error: (error) => {
-        console.error('Error cargando posts:', error);
-        this.isLoading = false;
-      }
-    });
+  async loadPosts() {
+    try {
+      this.isLoading = true;
+      this.posts = await this.postService.getPosts();
+      console.log('Posts cargados:', this.posts);
+    } catch (error) {
+      console.error('Error cargando posts:', error);
+    } finally {
+      this.isLoading = false;
+    }
   }
 }
