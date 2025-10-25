@@ -1,0 +1,13 @@
+<div class="post-card">
+  <div class="image-container">
+    <img [src]="post.imageUrl" [alt]="post.title || 'Pin image'" class="post-image">
+    <div class="hover-overlay">
+      <button class="save-btn">Guardar</button>
+    </div>
+  </div>
+  
+  <div class="post-info" *ngIf="post.title || post.description">
+    <h3 class="post-title" *ngIf="post.title">{{ post.title }}</h3>
+    <p class="post-description" *ngIf="post.description">{{ post.description }}</p>
+  </div>
+</div>

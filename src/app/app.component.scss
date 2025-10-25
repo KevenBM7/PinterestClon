@@ -1,0 +1,13 @@
+.app-container {
+  display: flex;
+  min-height: 100vh; 
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  .main-content {
+    flex: 1;
+    margin-left: 80px;  
+    display: flex;
+    flex-direction: column;
+    
+  }
+}

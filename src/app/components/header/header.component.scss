@@ -1,0 +1,72 @@
+.header {
+  position: fixed;  
+  top: 0;
+  left: 80px;      
+  right: 0;        
+  height: 80px;
+  background: white;
+  border-bottom: 1px solid #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 16px;
+  z-index: 50;
+
+  .search-container {
+    flex: 1;
+    max-width: none;
+    
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: #f0f0f0;
+      border-radius: 10px;
+      padding: 15px 16px;
+      gap: 8px;
+
+      .search-icon {
+        color: #767676;
+        font-size: 16px;
+      }
+
+      .search-input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        outline: none;
+        font-size: 16px;
+        color: #333;
+
+        &::placeholder {
+          color: #767676;
+        }
+      }
+    }
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto; /* 🔹 Empuja el bloque a la derecha */
+    
+    .profile {
+      display: flex;
+      align-items: center;
+      
+      .avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #e60023;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 14px;
+      }
+    }
+  }
+}

@@ -1,0 +1,81 @@
+<div class="create-post-container">
+  <div class="create-post-header">
+    <h1>Crear Pin</h1>
+    <p>Solo necesitas una imagen para inspirar</p>
+  </div>
+
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="post-form">
+    <!-- URL de Imagen (OBLIGATORIO) -->
+    <div class="form-group">
+      <label for="imageUrl">URL de imagen *</label>
+      <input 
+        type="url" 
+        id="imageUrl"
+        formControlName="imageUrl"
+        placeholder="https://example.com/imagen.jpg"
+        [class.error]="isFieldInvalid('imageUrl')"
+      >
+      <div *ngIf="isFieldInvalid('imageUrl')" class="error-message">
+        URL de imagen válida es requerida
+      </div>
+      <div class="url-hint">
+        💡 Usa imágenes de Unsplash o Google Images
+      </div>
+    </div>
+
+    <!-- Preview -->
+    <div *ngIf="postForm.get('imageUrl')?.value && postForm.get('imageUrl')?.valid" class="image-preview">
+      <h3>Preview:</h3>
+      <img [src]="postForm.get('imageUrl')?.value" [alt]="postForm.get('title')?.value || 'Preview'" class="preview-img">
+    </div>
+
+    <!-- Título (OPCIONAL) -->
+    <div class="form-group">
+      <label for="title">Título (opcional)</label>
+      <input 
+        type="text" 
+        id="title"
+        formControlName="title"
+        placeholder="Título del pin"
+      >
+    </div>
+
+    <!-- Descripción (OPCIONAL) -->
+    <div class="form-group">
+      <label for="description">Descripción (opcional)</label>
+      <textarea 
+        id="description"
+        formControlName="description"
+        placeholder="Agrega una descripción..."
+        rows="2"
+      ></textarea>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="form-actions">
+      <button 
+        type="submit" 
+        [disabled]="postForm.invalid || isSubmitting"
+        class="submit-btn"
+      >
+        <span *ngIf="!isSubmitting">Crear Pin</span>
+        <span *ngIf="isSubmitting">Creando...</span>
+      </button>
+      
+      <button 
+        type="button" 
+        class="cancel-btn"
+        routerLink="/home"
+      >
+        Cancelar
+      </button>
+    </div>
+
+    <!-- Messages -->
+    <div *ngIf="submitMessage" 
+         [class]="submitMessage.includes('Error') ? 'error-message' : 'success-message'"
+         class="submit-message">
+      {{ submitMessage }}
+    </div>
+  </form>
+</div>
